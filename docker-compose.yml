@@ -13,3 +13,16 @@ services:
       - ./front:/app
     stdin_open: true
     tty: true
+  
+  web:
+    container_name: vue-backend
+    build:
+      context: ./
+      dockerfile: ./infra/web/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./server:/app
+    tty: true
+    environment:
+      - TZ=Asia/Tokyo
