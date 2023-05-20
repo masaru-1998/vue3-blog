@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import PostArticle from '@/pages/PostArticle.vue'
 import Article from '@/pages/Article.vue';
 import Home from '@/pages/Home.vue';
+import Detail from '@/pages/Detail.vue'
 
 const routes = createRouter({
     history: createWebHistory(),
@@ -20,6 +21,11 @@ const routes = createRouter({
             path: '/post-article',
             name: 'PostArticle',
             component: PostArticle
+        },
+        {
+            path: '/article-detail/:id',
+            name: 'ArticleDetail',
+            component: Detail
         }
     ]
 })

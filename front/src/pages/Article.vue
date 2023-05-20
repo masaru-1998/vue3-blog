@@ -2,7 +2,7 @@
 import useArticleStore from '@/store/article';
 
 const store = useArticleStore();
-const articles = store.readArticles();
+const articles = store.readAllArticles();
 
 </script>
 <template>

@@ -14,7 +14,7 @@ tagList: string[];
 export interface Comment {
 id: number;
 articleId: number;
-body: string;
+comment: string;
 }
 
 export interface State {

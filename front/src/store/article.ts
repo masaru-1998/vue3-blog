@@ -10,8 +10,13 @@ const useArticleStore = defineStore('article', () => {
 
     const store = reactive(initState)
 
-    const readArticles = (): Article[] => {
+    const readAllArticles = (): Article[] => {
         return store.articles;
+    }
+    const readArticle = (id: string) => {
+        const articleStore = store.articles.find(article => article.id === Number(id));
+        console.log(articleStore)
+        return articleStore;
     }
 
     const readComments = (articleId: number): Comment[] => {
@@ -22,8 +27,12 @@ const useArticleStore = defineStore('article', () => {
         store.articles.push(newArticle);
     }
 
-    const addComment = (articleId: number, newComment: Comment) => {
-        newComment.articleId = articleId;
+    const addComment = (articleId: number, comment: string) => {
+        const newComment = {
+            id: store.comments.length,
+            articleId: articleId,
+            comment: comment
+        }
         store.comments.push(newComment);
     }
 
@@ -47,7 +56,8 @@ const useArticleStore = defineStore('article', () => {
     }
 
     return {
-        readArticles,
+        readAllArticles,
+        readArticle,
         readComments,
         createArticle,
         addComment,
