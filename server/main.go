@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"github.com/masa-1998/sample-table/router"
 )
 
 func main() {
-	fmt.Print("こんにちは")
+	router.StartWebServer()
 }

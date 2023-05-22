@@ -3,6 +3,7 @@ import PostArticle from '@/pages/PostArticle.vue'
 import Article from '@/pages/Article.vue';
 import Home from '@/pages/Home.vue';
 import Detail from '@/pages/Detail.vue'
+import { SignIn, SignUp } from '@/pages/auth'
 
 const routes = createRouter({
     history: createWebHistory(),
@@ -11,6 +12,16 @@ const routes = createRouter({
             path: '/',
             name: 'Home',
             component: Home
+        },
+        {
+            path: '/signin',
+            name: 'SignIn',
+            component: SignIn
+        },
+        {
+            path: '/signup',
+            name: 'SignUp',
+            component: SignUp
         },
         {
             path: '/article',
