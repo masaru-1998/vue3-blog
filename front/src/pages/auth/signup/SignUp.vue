@@ -6,19 +6,20 @@ import Button from '@/components/Button.vue';
 import schema from './signup.schema';
 
 const { handleSubmit, errors } = useForm({validationSchema: schema});
-const { value: firstName } = useField("firstName")
-const { value: lastName } = useField("lastName")
-const { value: email } = useField("email")
-const { value: password} = useField("password")
+const { value: firstName } = useField<string>("firstName")
+const { value: lastName } = useField<string>("lastName")
+const { value: email } = useField<string>("email")
+const { value: password} = useField<string>("password")
 
 const URL = import.meta.env.SERVER_ENDPOINT || 'http://localhost:80';
 const onSubmit = handleSubmit(() => {
-    axios.post(`${URL}/signup`, {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: email.value,
-        password: password.value
-    })
+    const formData = new FormData();
+    formData.append('firstName', firstName.value);
+    formData.append('lastName', lastName.value);
+    formData.append('email', email.value);
+    formData.append('password', password.value);
+
+    axios.post(`${URL}/signup`, formData)
     .then( res => console.log(res))
     .catch( err => console.error(err))
 });
