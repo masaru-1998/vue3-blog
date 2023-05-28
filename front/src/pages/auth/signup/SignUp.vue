@@ -19,7 +19,7 @@ const onSubmit = handleSubmit(() => {
     formData.append('email', email.value);
     formData.append('password', password.value);
 
-    axios.post(`${URL}/signup`, formData)
+    axios.post(`${URL}/api/signup`, formData)
     .then( res => console.log(res))
     .catch( err => console.error(err))
 });

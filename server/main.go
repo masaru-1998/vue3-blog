@@ -1,9 +1,21 @@
 package main
 
 import (
-	"github.com/masa-1998/sample-table/router"
+	"sample-table/utils/validation"
+	"sample-table/service"
+	"sample-table/controller"
+	"sample-table/router"
 )
 
 func main() {
-	router.StartWebServer()
+	authValidation := validation.NewAuthValidation()
+
+	authService := service.NewAuthService(authValidation)
+
+	authController := controller.NewAuthController(authService)
+
+	authRouter := router.NewAuthRouter(authController)
+	mainRouter := router.NewMainRouter(authRouter)
+
+	mainRouter.StartWebServer()
 }

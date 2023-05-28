@@ -2,25 +2,35 @@ package router
 
 import (
 	"fmt"
-	"net/http"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
+type MainRouter interface {
+	setupRouting() *echo.Echo
+	StartWebServer()
+}
 
+type mainRouter struct {
+	authR AuthRouter
+}
 
-func StartWebServer() {
-	e := echo.New()
+func NewMainRouter(authR AuthRouter) MainRouter {
+	return &mainRouter{authR}
+}
 
-	e.Use(middleware.CORS())
-	e.POST("/signup", func(c echo.Context) error {
-		firstName := c.FormValue("firstName")
-		lastName := c.FormValue("lastName")
-		email := c.FormValue("email")
-		password := c.FormValue("password")
-		
-		response := fmt.Sprintf("firstName: %s, lastName: %s, email: %s, password: %s", firstName, lastName, email, password)
-		return c.String(http.StatusOK, response)
-	})
+func (mainRouter *mainRouter) setupRouting() *echo.Echo {
+	router := echo.New()
+	router.Use(middleware.CORS())
+
+	mainRouter.authR.SetAuthRouting(router)
+	
+	return router
+}
+
+func (mainRouter *mainRouter) StartWebServer() {
+	fmt.Println("Rest API start with echo")
+
+	e := mainRouter.setupRouting()
 	e.Logger.Fatal(e.Start(":80"))
 }
