@@ -35,6 +35,10 @@ func (as *authService) SignUp(c echo.Context) (model.SignUpRequest, error){
 		return signUpRequestParams, err
 	}
 
+	//アカウント情報をデータベースに保存
+	//アクセストークンを作成
+	//フロントエンドにアカウント情報を返す
+
 	return signUpRequestParams, nil
 }
 

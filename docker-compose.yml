@@ -26,3 +26,20 @@ services:
     tty: true
     environment:
       - TZ=Asia/Tokyo
+  
+  db:
+    container_name: vue_table_db
+    build:
+      context: ./
+      dockerfile: ./infra/db/Dockerfile
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: database
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    
+volumes:
+  db_data:
