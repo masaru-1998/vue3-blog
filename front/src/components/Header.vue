@@ -15,6 +15,9 @@
                     <router-link to="/article" class="navbar-item">記事一覧</router-link>
                     <router-link to="/post-article" class="navbar-item">記事投稿</router-link>
                 </div>
+                <div class="auth-item">
+                    <router-link to="/signup">会委員登録</router-link>
+                </div>
             </div>
         </div>
     </nav>
@@ -34,11 +37,19 @@
 .navbar-brand {
     font-size: 1.5em;
 }
-
+.navbar-menu {
+    display: flex;
+}
 .navbar-item {
     padding: 10px 15px;
     color: black;
     text-decoration: none;
+}
+.auth-item {
+    margin-left: auto;
+}
+.auth-item:hover {
+    color: #007bff;
 }
 
 .navbar-item:hover {

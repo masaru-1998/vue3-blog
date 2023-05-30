@@ -20,18 +20,22 @@ func NewAuthValidation() AuthValidation {
 	return &authValidation{}
 }
 
-//日本語入力のバリデーション
 func JPChar(value interface{}) error {
 	s, ok := value.(string)
-	if(!ok){
-		return validation.NewError("validate_string", fmt.Sprintf("%vは文字列でなければなりません", value))
+	if !ok {
+		return fmt.Errorf("%vは文字列でなければなりません", value)
 	}
-	//入力文字列が日本語かどうかを確認
-	if m, _ := regexp.MatchString(`^[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}ーa-zA-Zａ-ｚＡ-Ｚ0-9０-９々〆〤〡〢〣〦〧〨〩〠〷〒〓〖〗〘〙〚〝〞〟〰〾〿-]+$`, s); !m {
-		return validation.NewError("validate_JPCharactor", fmt.Sprintf("%vは日本語のみの入力でなければなりません", s))
+
+	pattern := "^[ぁ-ゔァ-ヴー々〆〤-\u309f\u30a0-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]*$"
+	re := regexp.MustCompile(pattern)
+
+	if !re.MatchString(s) {
+		return fmt.Errorf("%vは日本語のみの入力でなければなりません", s)
 	}
 	return nil
 }
+
+
 
 //ドメインの確認
 func DomainCheck(domain string) validation.RuleFunc {

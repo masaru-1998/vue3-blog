@@ -20,7 +20,14 @@ const onSubmit = handleSubmit(() => {
     formData.append('password', password.value);
 
     axios.post(`${URL}/api/signup`, formData)
-    .then( res => console.log(res))
+    .then( res => {
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 1);
+
+        document.cookie = `name=${res.data.name}; expires=${expires.toUTCString()}`;
+        document.cookie = `email=${res.data.email}; expires=${expires.toUTCString()}`;
+        document.cookie = `password=${res.data.password}; expires=${expires.toUTCString()}`;
+    })
     .catch( err => console.error(err))
 });
 
@@ -33,12 +40,12 @@ const onSubmit = handleSubmit(() => {
                 <div class="name-field">
                     <div class="single-input">
                         <label>氏名</label>
-                        <input type="text" v-model="firstName" placeholder="氏名"/>
+                        <input type="text" v-model="lastName" placeholder="氏名"/>
                         <p class="error-message">{{ errors.firstName}}</p>
                     </div>
                     <div class="single-input">
                         <label>名前</label>
-                        <input type="text" v-model="lastName" placeholder="名前" />
+                        <input type="text" v-model="firstName" placeholder="名前" />
                         <p class="error-message">{{ errors.lastName }}</p>
                     </div>
                 </div>
