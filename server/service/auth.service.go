@@ -12,16 +12,18 @@ import (
 
 type AuthService interface {
 	SignUp(c echo.Context) (model.User, error)
+	CreateAuthResponse(user *model.User, code int) (model.AuthResponse, error)
 }
 
 type authService struct {
 	av validation.AuthValidation
 	ur repositories.UserRepository
 	ul logic.UserLogic
+	jl logic.JWTTokenLogic
 }
 
-func NewAuthService(av validation.AuthValidation, ur repositories.UserRepository, ul logic.UserLogic) AuthService {
-	return &authService{av, ur, ul}
+func NewAuthService(av validation.AuthValidation, ur repositories.UserRepository, ul logic.UserLogic, jl logic.JWTTokenLogic) AuthService {
+	return &authService{av, ur, ul, jl}
 }
 
 func (as *authService) SignUp(c echo.Context) (model.User, error){
@@ -63,3 +65,21 @@ func (as *authService) SignUp(c echo.Context) (model.User, error){
 	return createUser, nil
 }
 
+func (as *authService) CreateAuthResponse(user *model.User, code int) (model.AuthResponse, error) {
+	//jwtトークンを作成
+	jwtToken, err := as.jl.CreateJWTToken(user)
+	if err != nil {
+		return model.AuthResponse{}, err
+	}
+	//レスポンスデータを生成
+	var responseBody model.AuthResponse
+	responseBody.Token = jwtToken
+	responseBody.User.Name = user.Name
+	responseBody.User.Email = user.Email
+	responseBody.User.BaseModel.ID = user.ID
+	responseBody.User.BaseModel.CreateAt = user.CreateAt
+	responseBody.User.BaseModel.UpdateAt = user.UpdateAt
+	responseBody.User.BaseModel.DeleteAt = user.DeleteAt
+	
+	return responseBody, nil
+}

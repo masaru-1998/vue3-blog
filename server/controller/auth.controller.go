@@ -2,7 +2,10 @@ package controller
 
 import (
 	"net/http"
+
 	"sample-table/service"
+
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -27,5 +30,9 @@ func (ac *authController) SignUp(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, err.Error())
 	} 
 
-	return c.JSON(http.StatusOK, createUser)
+	responseBody, err := ac.as.CreateAuthResponse(&createUser, http.StatusCreated)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, responseBody)
 }

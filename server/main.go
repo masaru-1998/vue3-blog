@@ -16,10 +16,11 @@ func main() {
 	userRepository := repositories.NewUserRepository(db)
 	//logicパッケージをインスタンス化
 	userLogic := logic.NewUserLogic()
+	jwtLogic := logic.NewJWTLogic()
 	//validationパッケージをインスタンス化
 	authValidation := validation.NewAuthValidation()
 	//serviceパッケージをインスタンス化
-	authService := service.NewAuthService(authValidation, userRepository, userLogic)
+	authService := service.NewAuthService(authValidation, userRepository, userLogic, jwtLogic)
 	//controllerパッケージをインスタンス化
 	authController := controller.NewAuthController(authService)
 	//routerパッケージをインスタンス化

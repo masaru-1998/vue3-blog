@@ -9,8 +9,8 @@ type SignUpRequest struct {
 
 type UserResponse struct {
 	BaseModel
-	name string `json: name`
-	email string `json: email`
+	Name string `json: name`
+	Email string `json: email`
 }
 
 type AuthResponse struct {
